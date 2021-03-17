@@ -1,0 +1,62 @@
+﻿@model UniversityManagementSystemWebApp.Models.ClassSchedule
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ClassSchedule</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body>
+    <form id="signupForm" method="POST">
+        <div class="container">
+
+            <div class="row">
+                <h1 class="jumbotron text-center" style="background-color: darkcyan"> University Management System</h1>
+                <div class="col-md-8 col-md-offset-2">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: green">
+                            <h1 align="center">Class schedule</h1>
+                        </div>
+                        <div class="panel-body" style="border-color: black">
+
+                            <div class="col-md-10 margin-bottom">
+                                <div>
+                                    @using (Html.BeginForm(null, null, FormMethod.Post))
+                                    {
+                                        <table>
+                                            <tr>
+                                                <td>@Html.LabelFor(x => x.DepartmentId)</td>
+                                                <td>@Html.DropDownListFor(x => x.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"), new { @class = "form-control" })</td>
+                                            </tr>
+                                        </table>
+
+                                        <table border="1">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course Code</th>
+                                                    <th>Name</th>
+                                                    <th>Schedule Info</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="ScheduleInfo"></tbody>
+                                        </table>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </form>
+</body>
+</html>

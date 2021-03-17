@@ -1,0 +1,147 @@
+﻿@using UniversityManagementSystemWebApp.Models
+@model UniversityManagementSystemWebApp.Models.Student
+@{
+    Layout = null;
+    List<string> Details = (List<string>)ViewBag.Details;
+   
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Save</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery.datetimepicker.css" rel="stylesheet" />
+    <link href="~/Contents/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    
+</head>
+<body>
+    <form id="signupForm" method="POST">
+        <div class="container">
+
+            <div class="row">
+                <h1 class="jumbotron text-center" style="background-color: darkcyan"> University Management System</h1>
+                <div class="col-md-8 col-md-offset-2">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: green">
+                            <h1 align="center">Register Student</h1>
+                        </div>
+                        <div class="panel-body" style="border-color: black">
+
+                            <div class="col-md-10 margin-bottom">
+                                <div>
+                                    @using (Html.BeginForm("Save", "Student", FormMethod.Post, new { id = "StudentRegistrationForm", @class = "" }))
+                                    {
+
+                                        <div>
+                                            @Html.LabelFor(x => x.Name)
+                                            <div>
+                                                @Html.TextBoxFor(x => x.Name)
+                                                @Html.ValidationMessageFor(x => x.Name)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.LabelFor(x => x.Email)
+                                            <div>
+                                                @Html.TextBoxFor(x => x.Email)
+                                                @Html.ValidationMessageFor(x => x.Email)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.LabelFor(x => x.ContactNo)
+                                            <div>
+                                                @Html.TextBoxFor(x => x.ContactNo)
+                                                @Html.ValidationMessageFor(x => x.ContactNo)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label>Date</label>
+                                            <div>
+                                                @Html.TextBoxFor(x => x.Date)
+                                                @Html.ValidationMessageFor(x => x.Date)
+                                            </div>
+                                        </div>
+
+
+                                        <div>
+                                            @Html.LabelFor(x => x.Address)
+                                            <div>
+                                                @Html.TextBoxFor(x => x.Address)
+                                                @Html.ValidationMessageFor(x => x.Address)
+                                            </div>
+                                        </div>
+
+
+                                        <div>
+                                            <label>Department</label>
+                                            <div>
+                                                @Html.DropDownListFor(x => x.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"))
+                                                @Html.ValidationMessageFor(x => x.DepartmentId)
+                                            </div>
+                                        </div>
+                                        
+                                            <br/>
+                                            <div>
+                                                <input type="submit" value="Register" class="btn-danger" />
+                                            </div>
+                                      
+                                       
+                                    }
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <h1>@ViewBag.Message</h1>
+                                        if (ViewBag.Message == "Save Successful")
+                                        {
+                                            <table border="1">
+                                                <tr>
+                                                    <td>
+                                                        <h2>Details </h2>
+                                                    </td>
+                                                </tr>
+                                                @foreach (string temp in Details)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <h2>@temp</h2>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </table>
+
+                                        }
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        $('#Date').datepicker({
+            format: "dd/mm/yyyy",
+
+
+            autoclose: true
+        });
+    </script>
+
+</body>
+
+</html>

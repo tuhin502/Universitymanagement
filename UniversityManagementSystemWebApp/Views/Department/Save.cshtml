@@ -1,0 +1,79 @@
+﻿@model UniversityManagementSystemWebApp.Models.Department
+
+@{
+    Layout = null;
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Save</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet"/>
+
+    
+</head>
+<body>
+    <form id="signupForm" method="POST">
+        <div class="container">
+            
+            <div class="row">
+                <h1 class="jumbotron text-center" style="background-color: darkcyan"> University Management System</h1>
+                <div class="col-md-8 col-md-offset-2">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: green">
+                            <h2 align="center">Department</h2>
+                        </div>
+                        <div class="panel-body" style="border-color: black">
+
+                            <div class="col-md-10 margin-bottom">
+
+                                @using (Html.BeginForm("Save", "Department", FormMethod.Post, new {id = "DepartmentRegistrationForm",}))
+                                {
+
+                                    <div class="form-group" cssclass="col-md-4 control-label" font-size="Medium">
+                                        @Html.LabelFor(x => x.Code)
+                                        <div cssclass="form-control margin-bottom">
+                                            @Html.TextBoxFor(x => x.Code)
+                                            @Html.ValidationMessageFor(x => x.Code)
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group" cssclass="col-md-4 control-label" font-size="Medium">
+                                        @Html.LabelFor(x => x.Name)
+                                        <div cssclass="form-control margin-bottom">
+                                            @Html.TextBoxFor(x => x.Name)
+                                            @Html.ValidationMessageFor(x => x.Name)
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <input type="submit" value="Save" class="btn-danger"/>
+                                    </div>
+
+
+                                }
+                                @if (ViewBag.Message != null)
+                                {
+                                    <p>@ViewBag.Message</p>
+                                }
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+        <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+        <script src="~/Scripts/jquery.validate.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>

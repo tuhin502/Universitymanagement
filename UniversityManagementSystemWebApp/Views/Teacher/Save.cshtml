@@ -1,0 +1,116 @@
+﻿@model UniversityManagementSystemWebApp.Models.Teacher
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Save</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet"/>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+    <form id="signupForm" method="POST">
+        <div class="container">
+
+            <div class="row">
+                <h1 class="jumbotron text-center" style="background-color: darkcyan"> University Management System</h1>
+                <div class="col-md-8 col-md-offset-2">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: green">
+                            <h1 align="center">Teacher</h1>
+                        </div>
+                        <div class="panel-body" style="border-color: black">
+
+                            <div class="col-md-10 margin-bottom">
+                             
+
+                                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "Teacher" }))
+                                    {
+
+                                        <div>
+                                            @Html.Label("Name")
+                                            <div>
+                                                @Html.TextBoxFor(x => x.Name)
+                                                @Html.ValidationMessageFor(x => x.Name)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("Address")
+                                            <div>
+                                                @Html.TextAreaFor(x => x.Address)
+                                                @Html.ValidationMessageFor(x => x.Address)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("Email")
+                                            <div>
+                                                @Html.TextBoxFor(x => x.Email)
+                                                @Html.ValidationMessageFor(x => x.Email)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("Contact")
+                                            <div>
+                                                @Html.TextBoxFor(x => x.Contact)
+                                                @Html.ValidationMessageFor(x => x.Contact)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("Designation")
+                                            <div>
+                                                @Html.DropDownList("DesignationId", new SelectList(ViewBag.Designation, "Value", "Text"))
+                                                @Html.ValidationMessageFor(x => x.DesignationId)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("DepartmentId")
+                                            <div>
+                                                @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Value", "Text"))
+                                                @Html.ValidationMessageFor(x => x.DepartmentId)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("CreditTaken")
+                                            <div>
+                                                @Html.TextBoxFor(x => x.CreditTaken)
+                                                @Html.ValidationMessageFor(x => x.CreditTaken)
+                                            </div>
+                                        </div>
+                                        <br/>
+                                         <div>
+                                    <div>
+                                        <input type="submit" value="Save" class="btn-danger" />
+                                    </div>
+                                        </div>                                                                                                                                               
+
+                                    }
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <p>@ViewBag.Message</p>
+                                    }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>

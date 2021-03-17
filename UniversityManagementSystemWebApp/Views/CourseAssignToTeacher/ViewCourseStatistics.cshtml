@@ -1,0 +1,92 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewCourseStatistics</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet"/>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet"/>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+    <form id="signupForm" method="POST">
+        <div class="container">
+
+            <div class="row">
+                <h1 class="jumbotron text-center" style="background-color: darkcyan"> University Management System</h1>
+                <div class="col-md-8 col-md-offset-2">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: green">
+                            <h1 align="center"> View Course Statics</h1>
+                        </div>
+                        <div class="panel-body" style="border-color: black">
+
+                            <div class="col-md-10 margin-bottom">
+                                <div>
+                                    @using (Html.BeginForm(null, null, FormMethod.Post))
+                                    {
+
+                                        <div>
+                                            <label>Department</label>
+                                            @*@Html.Label("DepartmentId")*@
+                                            <div>
+                                                @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Value", "Text"))
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3>Course Information</h3>
+                                            <table border="1">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Code</th>
+                                                        <th>Name/Title</th>
+                                                        <th>Semester</th>
+                                                        <th>Assigned To</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="courseInfo"></tbody>
+
+                                            </table>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#DepartmentId").change(function () {
+                var deptId = $("#DepartmentId").val();
+                var json =
+                {
+                    departmentId: deptId
+                };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetDepartmentByCourseView", "CourseAssignToTeacher")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $("#courseInfo").empty();
+                        $.each(data, function (key, value) {
+                            $("#courseInfo").append('<tr> <td>' + value.Code + '</td> <td>' + value.Name + '</td> <td>' + value.Semester + '</td> <td>' + value.Teacher + '</td> </tr>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+﻿@using UniversityManagementSystemWebApp.Models
+
+@{
+    Layout = null;
+    List<Department> departments = ViewBag.Departments;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DepartmentDetails</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet"/>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+
+    <form id="signupForm" method="POST">
+        <div class="container">
+
+            <div class="row">
+                <h1 class="jumbotron text-center" style="background-color: darkcyan"> University Management System</h1>
+                <div class="col-md-8 col-md-offset-2">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: green">
+                            <h1 align="center">  View All Department Details</h1>
+                        </div>
+                        <div class="panel-body" style="border-color: black">
+
+                            <div class="col-md-10 margin-bottom">
+                                <div>
+                                   
+                                    <table border="5" width="1000px" cellpadding="4" cellspacing="3">
+
+
+                                        <tr>
+                                            <th class="text-center" style="background-color: blueviolet">Code</th>
+                                            <th class="text-center" style="background-color: blueviolet">Name</th>
+                                        </tr>
+                                        @foreach (Department department in departments)
+                                        {
+                                            <tr>
+                                                <td align="center">
+                                                    @department.Code
+                                                </td>
+                                                <td align="center">
+                                                    @department.Name
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

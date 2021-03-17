@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<body>
+
+    <form id="signupForm" method="POST">
+        <div class="container">
+
+            <div class="row">
+                <h1 class="jumbotron text-center" style="background-color: darkcyan"><i>WelCome To University Management System</i></h1>
+                <div class="col-md-8 col-md-offset-2">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: green">
+                            <h2 align="center">All Application</h2>
+                        </div>
+                        <div class="panel-body" style="border-color: black">
+
+                            <div class="col-md-10 margin-bottom">
+                              
+                                <div>
+                                    @Html.ActionLink("Save Department", "Save", "Department")
+                                </div>
+
+                                <div>
+                                    @Html.ActionLink("DepartmentDetails", "DepartmentDetails", "Department")
+                                </div>
+
+
+                                <div>
+                                    @Html.ActionLink(" Save Course", "Save", "Course")
+                                </div>
+
+                                <div>
+                                    @Html.ActionLink(" Save Teacher", "Save", "Teacher")
+                                </div>
+
+                                <div>
+                                    @Html.ActionLink(" CourseAssignToTeacher ", "CourseAssignToTeacher", "CourseAssignToTeacher")
+                                </div>
+
+                                <div>
+                                    @Html.ActionLink(" ViewCourseStatistics ", "ViewCourseStatistics", "CourseAssignToTeacher")
+                                </div>
+
+                                <div>
+                                    @Html.ActionLink(" Save Student", "Save", "Student")
+                                </div>
+
+
+                                <div>
+                                    @Html.ActionLink(" Save ClassRoom", "Save", "ClassRoom")
+                                </div>
+
+                                <div>
+                                    @Html.ActionLink(" Save ClassSchedule", "Save", "ClassRoom")
+                                </div>
+
+
+                                <div>
+                                    @Html.ActionLink(" EnrollInCourse ", "EnrollInCourse", "EnrollInCourse")
+                                </div>
+
+
+                                <div>
+                                    @Html.ActionLink(" Save StudentResult", "Save", "StudentResult")
+                                </div>
+
+                                <div>
+                                    @Html.ActionLink(" ViewResult t", "ViewResult", "StudentResult")
+                                </div>
+
+                                <div>
+                                    @Html.ActionLink(" UnAllocate UnAllocateClassRoom", "UnAllocate", "UnAllocateClassRoom")
+
+                                </div>
+
+                                <div>
+                                    <a class="btn btn-default">
+                                        @Html.ActionLink(" UnAssign UnAssignCourse", "UnAssign", "UnAssignCourse")
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+    </form>
+</body>

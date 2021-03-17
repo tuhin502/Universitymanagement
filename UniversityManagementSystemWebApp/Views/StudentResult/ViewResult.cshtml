@@ -1,0 +1,140 @@
+﻿@model UniversityManagementSystemWebApp.Models.ViewResult
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ViewResult</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+    <form id="signupForm" method="POST">
+        <div class="container">
+
+            <div class="row">
+                <h1 class="jumbotron text-center" style="background-color: darkcyan"> University Management System</h1>
+                <div class="col-md-8 col-md-offset-2">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: green">
+                            <h1 align="center">View Result</h1>
+                        </div>
+                        <div class="panel-body" style="border-color: black">
+
+                            <div class="col-md-10 margin-bottom">
+                                <div>
+
+                                    @using (Html.BeginForm("Export", "StudentResult", FormMethod.Post))
+                                    {
+                                        <table>
+                                            <tr>
+                                                <td>@Html.Label("RegNo")</td>
+                                                <td>
+                                                    @Html.DropDownList("RegNo", new SelectList(ViewBag.RegNo, "Value", "Text"))
+                                                    @Html.ValidationMessageFor(x => x.RegNo)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.Label("Name")</td>
+                                                <td>
+                                                    @Html.TextBox("Name")
+                                                    @Html.ValidationMessageFor(x => x.Name)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.Label("Email")</td>
+                                                <td>
+                                                    @Html.TextBox("Email")
+                                                    @Html.ValidationMessageFor(x => x.Email)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.Label("Department")</td>
+                                                <td>
+                                                    @Html.TextBox("Department")
+                                                    @Html.ValidationMessageFor(x => x.Department)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="hidden" name="GridHtml"/></td>
+                                                <td><input type="submit" id="PDF" value="Make PDF"/></td>
+                                            </tr>
+                                        </table>
+                                    }
+
+                                </div>
+                                <br/>
+                                <div id="Grid" class="center">
+                                    <table border="1">
+                                        <thead>
+                                            <tr>
+                                                <th>Course Code</th>
+                                                <th>Name</th>
+                                                <th>Grade</th>
+                                            </tr>
+                                        </thead>
+
+
+                                        <tbody id="studentResult"></tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#Name").prop('disabled', true);
+            $("#Email").prop('disabled', true);
+            $("#Department").prop('disabled', true);
+
+
+            $("#RegNo").change(function () {
+                var regNo = $("#RegNo").val();
+                var json =
+                {
+                    registrationNo: regNo
+                };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetResultInfoByRegNo", "StudentResult")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+
+                        $("#studentResult").empty();
+
+                        $.each(data, function (key, value) {
+                            $("#Name").val(value.Name);
+                            $("#Email").val(value.Email);
+                            $("#Department").val(value.DepartmentName);
+
+                            $("#studentResult").append('<tr> <td>' + value.CourseCode + ' </td> <td> ' + value.CourseName + '</td> <td> ' + value.GradeLetter + '</td> </tr>');
+                        });
+                    }
+                });
+            });
+
+            $("#PDF").click(function () {
+
+                $("input[name='GridHtml']").val($("#Grid").html());
+            });
+        });
+    </script>
+</body>
+
+</html>

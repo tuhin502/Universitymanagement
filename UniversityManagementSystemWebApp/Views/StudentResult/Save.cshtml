@@ -1,0 +1,140 @@
+﻿@model UniversityManagementSystemWebApp.Models.StudentResult
+@{
+    Layout = null;
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Save</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    
+</head>
+<body>
+    <form id="signupForm" method="POST">
+        <div class="container">
+
+            <div class="row">
+                <h1 class="jumbotron text-center" style="background-color: darkcyan"> University Management System</h1>
+                <div class="col-md-8 col-md-offset-2">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: green">
+                            <h1 align="center">Student Result</h1>
+                        </div>
+                        <div class="panel-body" style="border-color: black">
+
+                            <div class="col-md-10 margin-bottom">
+                                <div>
+
+                                    @using (Html.BeginForm(null, null, FormMethod.Post))
+                                    {
+
+                                        <div>
+                                            @Html.Label("RegistrationNo")
+                                            <div>
+                                                @Html.DropDownList("RegistrationNo", new SelectList(ViewBag.RegNo, "Value", "Text"))
+                                                @Html.ValidationMessageFor(x => x.RegistrationNo)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("Name")
+                                            <div>
+                                                @Html.TextBox("Name")
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("Email")
+                                            <div>
+                                                @Html.TextBox("Email")
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("Department")
+                                            <div>
+                                                @Html.TextBox("Department")
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("CourseId")
+                                            <div>
+                                                <select id="CourseId" name="CourseId" class="CourseId">
+                                                    <option value="">--Select--</option>
+                                                </select>
+                                                @Html.ValidationMessageFor(x => x.CourseId)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("GradeLetterId")
+                                            <div>
+                                                @Html.DropDownList("GradeLetterId", new SelectList(ViewBag.Grades, "Value", "Text"))
+                                                @Html.ValidationMessageFor(x => x.GradeLetterId)
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div>
+                                            <input type="submit" value="Save" class="btn-danger" />
+                                        </div>
+                                                
+                                    }
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <p>@ViewBag.Message</p>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#Name").prop('disabled', true);
+            $("#Email").prop('disabled', true);
+            $("#Department").prop('disabled', true);
+            $("#CourseId").prop('disabled', true);
+
+            $("#RegistrationNo").change(function () {
+                var regNo = $("#RegistrationNo").val();
+                var json =
+                {
+                    registrationNo: regNo
+                };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetRegNoByStudentInfo", "StudentResult")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $.each(data, function (key, value) {
+                            $("#CourseId").prop('disabled', false);
+
+                            $("#Name").val(value.Name);
+                            $("#Email").val(value.Email);
+                            $("#Department").val(value.Department);
+                            $("#CourseId").append('<option value=' + value.CourseId + '>' + value.CourseName + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

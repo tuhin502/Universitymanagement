@@ -1,0 +1,155 @@
+﻿@model UniversityManagementSystemWebApp.Models.EnrollCourse
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery.datetimepicker.css" rel="stylesheet" />
+    <link href="~/Contents/bootstrap-datepicker.css" rel="stylesheet"/>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <title>EnrollInCourse</title>
+</head>
+<body>
+    <form id="signupForm" method="POST">
+        <div class="container">
+
+            <div class="row">
+                <h1 class="jumbotron text-center" style="background-color: darkcyan"> University Management System</h1>
+                <div class="col-md-8 col-md-offset-2">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: green">
+                            <h1 align="center">Enroll In a Course</h1>
+                        </div>
+                        <div class="panel-body" style="border-color: black">
+
+                            <div class="col-md-10 margin-bottom">
+                                <div>
+                                    @using (Html.BeginForm(null, null, FormMethod.Post))
+                                    {
+                                        <div>
+                                            @Html.LabelFor(x => x.StudentId)
+                                            <div>
+                                                @Html.DropDownListFor(x => x.StudentId, new SelectList(ViewBag.StudentRegNo, "Value", "Text"))
+                                                @Html.ValidationMessageFor(x => x.StudentId)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("Name")
+                                            <div>
+                                                @Html.TextBox("Name")
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("Email")
+                                            <div>
+                                                @Html.TextBox("Email")
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("Department")
+                                            <div>
+                                                @Html.TextBox("DepartmentId")
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.LabelFor(x => x.CourseId)
+                                            <div>
+                                                @Html.DropDownListFor(x => x.CourseId, new SelectList(ViewBag.Courses, "Value", "Text"), new { style = "width:165px;" })
+                                                @Html.ValidationMessageFor(x => x.CourseId)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.LabelFor(x => x.Date)
+                                            <div>
+                                                <input type="text" id="Date" name="Date" value="" />
+                                                @Html.ValidationMessageFor(x => x.Date)
+                                            </div>
+                                        </div>
+                                        
+                                        <br/>
+                                        <div>
+                                            
+                                            <div>
+                                                <input type="submit" value="Enroll" class="btn-danger"/>
+                                            </div>
+                                        </div>
+                                       
+                                    }
+                                    @if (ViewBag.Message != null)
+                                    {
+                                        <p>@ViewBag.Message</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#Name").prop('disabled', true);
+            $("#Email").prop('disabled', true);
+            $("#DepartmentId").prop('disabled', true);
+            $("#Date").datepicker({ dateFormat: "dd/mm/yy" });
+            $("#Date").on("change", function () {
+                var selected = $(this).val();
+                $("#Date").val(selected);
+            });
+            $("#StudentId").change(function () {
+                var regId = $("#StudentId").val();
+                var json =
+                {
+                    registrationId: regId
+                };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("RegistrationNo", "EnrollInCourse")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $.each(data, function (key, value) {
+                            $("#Name").val(value.Name);
+                            $("#Email").val(value.Email);
+                            $("#DepartmentId").val(value.DepartmentName);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        $('#Date').datepicker({
+            format: "dd/mm/yyyy",
+
+
+            autoclose: true
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,214 @@
+﻿@model UniversityManagementSystemWebApp.Models.CourseAssignToTeacher
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CourseAssignToTeacher</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+    <form id="signupForm" method="POST">
+        <div class="container">
+
+            <div class="row">
+                <h1 class="jumbotron text-center" style="background-color: darkcyan"> University Management System</h1>
+                <div class="col-md-8 col-md-offset-2">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: green">
+                            <h1 align="center">Course Assign To Teacher</h1>
+                        </div>
+                        <div class="panel-body" style="border-color: black">
+
+                            <div class="col-md-10 margin-bottom">
+                                <div>
+                                    @using (Html.BeginForm(null, null, FormMethod.Post))
+                                    {
+
+
+                                        <div>
+                                            @Html.LabelFor(x => x.DepartmentId)
+                                            <div>
+                                                @Html.DropDownListFor(x => x.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"))
+                                                @Html.ValidationMessageFor(x => x.DepartmentId)
+                                            </div>
+                                        </div>
+
+
+                                        <div>
+                                            @Html.LabelFor(x => x.TeacherId)
+                                            <div>
+                                                <select id="TeacherId" name="TeacherId" class="TeacherId">
+                                                    <option value="">--Select--</option>
+                                                </select>
+                                                @Html.ValidationMessageFor(x => x.TeacherId)
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("CreditTaken")
+                                            <div>
+                                                @Html.TextBox("CreditTaken")
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("RemainingCredit")
+                                            <div>
+                                                @Html.TextBox("RemainingCredit")
+                                            </div>
+                                        </div>
+
+
+                                        <div>
+                                            @Html.LabelFor(x => x.CourseCode)
+                                            <div>
+                                                <select id="CourseCode" name="CourseCode" class="CourseCode">
+                                                    <option value="">--Select--</option>
+                                                </select>
+
+                                                @Html.ValidationMessageFor(x => x.CourseCode)
+                                            </div>
+                                        </div>
+
+
+                                        <div>
+                                            @Html.Label("Name")
+                                            <div>
+                                                @Html.TextBox("Name")
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            @Html.Label("Credit")
+                                            <div>
+                                                @Html.TextBox("Credit")
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div>
+                                            <input type="submit" value="Assign" class="btn-danger"/>
+                                        </div>
+                                    }
+
+                                </div>
+
+                                @if (ViewBag.Message != null)
+                                {
+                                    <p>@ViewBag.Message</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#TeacherId").prop('disabled', true);
+            $("#CourseCode").prop('disabled', true);
+            $("#CreditTaken").prop('disabled', true);
+            $("#RemainingCredit").prop('disabled', true);
+            $("#Name").prop('disabled', true);
+            $("#Credit").prop('disabled', true);
+
+            $("#DepartmentId").change(function () {
+                var deptId = $("#DepartmentId").val();
+                var json =
+                {
+                    departmentId: deptId
+                };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetDepartmentId", "CourseAssignToTeacher")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $("#TeacherId").find("option").remove();
+                        $("#TeacherId").append('<option value="">--Select---</option');
+                        $.each(data, function (key, value) {
+                            $("#TeacherId").prop('disabled', false);
+                            $("#CourseCode").prop('disabled', false);
+                            $("#TeacherId").append('<option value=' + value.Id + '>' + value.Name + '</option');
+                        });
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetDepartmentIdByCourse", "CourseAssignToTeacher")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $("#CourseCode").find("option").remove();                       
+                        $("#CourseCode").append('<option value="">--Select---</option');
+                        $.each(data, function (key, value) {
+                            $("#TeacherId").prop('disabled', false);
+                            $("#CourseCode").prop('disabled', false);
+                            $("#CourseCode").append('<option value=' + value.CourseId + '>' + value.CourseCode + '</option>');
+                        });
+                    }
+                });
+            });
+
+            $("#TeacherId").change(function () {
+
+                var tecId = $("#TeacherId").val();
+                var json = { teacherId: tecId };
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetTeacherId", "CourseAssignToTeacher")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $.each(data, function (key, value) {                          
+                            var creditTaken = value.CreditTaken;
+                            var remainingCredit = value.RemainingCredit;
+                            $("#CreditTaken").val(creditTaken);
+                            $("#RemainingCredit").val(remainingCredit);
+
+                        });
+                    }
+                });
+            });
+
+            $("#CourseCode").change(function () {
+                var couId = $("#CourseCode").val();                
+                var json =
+                {
+                    CourseId: couId
+                };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCourseId", "CourseAssignToTeacher")',                   
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        $.each(data, function (key, value) {
+                            var name = value.Name;
+                            var credit = value.Credit;
+                            $("#Name").val(name);
+                            $("#Credit").val(credit);
+                        });
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>
